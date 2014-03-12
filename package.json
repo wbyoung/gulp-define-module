@@ -1,7 +1,7 @@
 {
   "name": "gulp-define-module",
   "version": "0.0.2",
-  "description": "Gulp plugin for creating modules",
+  "description": "gulp.js plugin for creating modules",
   "homepage": "https://github.com/wbyoung/gulp-define-module",
   "main": "index.js",
   "scripts": {
