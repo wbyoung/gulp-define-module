@@ -87,7 +87,7 @@ describe('gulp-define-module', function() {
     it('accepts options through incoming file', function(done) {
       var stream = defineModule('amd');
       var file = fixtureFile('basic.js');
-      file.moduleOptions = requireOptions;
+      file.defineModuleOptions = requireOptions;
       stream.on('data', function(file) {
         fileShouldMatchExpected(file, 'basic_amd_require.js');
         done();
