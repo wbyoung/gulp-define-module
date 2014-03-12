@@ -13,26 +13,26 @@ function makeAMD(moduleContents, opts) {
     includes.push('\'' + include + '\'');
     defines.push(define);
   });
-  return ''.concat('define([', includes.join(',') , '], ',
-    'function(', defines.join(','), ') { return ', moduleContents, '; });');
+  return 'define([' + includes.join(',') + '], ' +
+    'function(' + defines.join(',') + ') { return ' + moduleContents + '; });';
 }
 
 function makeCommonJS(moduleContents, opts) {
   // module.exports = function() {};
-  return ''.concat('module.exports = ', moduleContents, ';');
+  return 'module.exports = ' + moduleContents + ';';
 }
 
 function makeNode(moduleContents, opts) {
   // var Dependency = global.Dependency || require('dependency');module.exports = function() {};
   var requires = _.map(opts.require, function(key, value) {
-    return ''.concat('var ', value, ' = global.', value, ' || require(\'', key, '\');');
+    return 'var ' + value + ' = global.' + value + ' || require(\'' + key + '\');';
   });
-  return ''.concat(requires, 'module.exports = ', moduleContents, ';');
+  return requires + 'module.exports = ' + moduleContents + ';';
 }
 
 function makePlain(moduleContents, opts) {
   // function() {};
-  return ''.concat(moduleContents, ';');
+  return moduleContents + ';';
 }
 
 module.exports = function(type, options) {
