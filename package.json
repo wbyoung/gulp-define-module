@@ -11,6 +11,13 @@
     "type": "git",
     "url": "git://github.com/wbyoung/gulp-define-module.git"
   },
+  "keywords": [
+    "gulpplugin",
+    "gulpfriendly",
+    "amd",
+    "commonjs",
+    "node"
+  ],
   "author": "Whitney Young",
   "license": "MIT",
   "dependencies": {
