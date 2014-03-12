@@ -72,7 +72,7 @@ module.exports = function(type, options) {
       throw new Error('Unsupported module type for gulp-define-module: ' + type);
     }
 
-    file.path = path.join(path.dirname(file.path), path.basename(name) + '.js');
+    file.path = gutil.replaceExtension(file.path, '.js');
     file.contents = new Buffer(contents);
     this.queue(file);
   });
