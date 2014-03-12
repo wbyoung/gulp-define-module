@@ -10,7 +10,7 @@ function makeAMD(moduleContents, opts) {
   var includes = [];
   var defines = [];
   _.each(opts.require, function(include, define) {
-    includes.push('\'' + include + '\'');
+    includes.push(JSON.stringify(include));
     defines.push(define);
   });
   return 'define([' + includes.join(',') + '], ' +
@@ -25,7 +25,7 @@ function makeCommonJS(moduleContents, opts) {
 function makeNode(moduleContents, opts) {
   // var Dependency = global.Dependency || require('dependency');module.exports = function() {};
   var requires = _.map(opts.require, function(key, value) {
-    return 'var ' + value + ' = global.' + value + ' || require(\'' + key + '\');';
+    return 'var ' + value + ' = global.' + value + ' || require(' + JSON.stringify(key) + ');';
   });
   return requires + 'module.exports = ' + moduleContents + ';';
 }
