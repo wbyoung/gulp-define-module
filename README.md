@@ -169,10 +169,10 @@ that you make it a single value from the _context_ for usage simplicity.
 For an example, see [gulp-ember-emblem].
 
 
-[travis-url]: http://travis-ci.org/wbyoung/gulp-ember-emblem
-[travis-image]: https://secure.travis-ci.org/wbyoung/gulp-ember-emblem.png?branch=master
-[npm-url]: https://npmjs.org/package/gulp-ember-emblem
-[npm-image]: https://badge.fury.io/js/gulp-ember-emblem.png
+[travis-url]: http://travis-ci.org/wbyoung/gulp-define-module
+[travis-image]: https://secure.travis-ci.org/wbyoung/gulp-define-module.png?branch=master
+[npm-url]: https://npmjs.org/package/gulp-define-module
+[npm-image]: https://badge.fury.io/js/gulp-define-module.png
 
 [gulp-define-module]: https://github.com/wbyoung/gulp-define-module
 [gulp-handlebars]: https://github.com/lazd/gulp-handlebars
