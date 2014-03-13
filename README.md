@@ -1,4 +1,4 @@
-# gulp-define-module [![NPM version][npm-image]][npm-url] [![Build status][travis-image]][travis-url]
+# gulp-define-module [![NPM version][npm-image]][npm-url] [![Build status][travis-image]][travis-url] [![Code Climate][codeclimate-image]][codeclimate-url]
 
 The gulp define module plugin produces modules from an input source. It allows
 [other plugins](https://github.com/wbyoung/gulp-ember-emblem) to offload module definition
@@ -196,6 +196,8 @@ For an example, see [gulp-ember-emblem].
 [travis-image]: https://secure.travis-ci.org/wbyoung/gulp-define-module.png?branch=master
 [npm-url]: https://npmjs.org/package/gulp-define-module
 [npm-image]: https://badge.fury.io/js/gulp-define-module.png
+[codeclimate-image]: https://codeclimate.com/github/wbyoung/gulp-define-module.png
+[codeclimate-url]: https://codeclimate.com/github/wbyoung/gulp-define-module
 
 [gulp-define-module]: https://github.com/wbyoung/gulp-define-module
 [gulp-handlebars]: https://github.com/lazd/gulp-handlebars
