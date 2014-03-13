@@ -200,7 +200,7 @@ For an example, see [gulp-ember-emblem].
 [npm-image]: https://badge.fury.io/js/gulp-define-module.png
 [codeclimate-image]: https://codeclimate.com/github/wbyoung/gulp-define-module.png
 [codeclimate-url]: https://codeclimate.com/github/wbyoung/gulp-define-module
-[david-image]: https://david-dm.org/wbyoung/gulp-define-module.png
+[david-image]: https://david-dm.org/wbyoung/gulp-define-module.png?theme=shields.io
 [david-url]: https://david-dm.org/wbyoung/gulp-define-module
 
 [gulp-define-module]: https://github.com/wbyoung/gulp-define-module
