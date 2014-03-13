@@ -94,7 +94,7 @@ Type: `Object`
 Default: `{}`
 
 An object containing dependencies that should be imported for this module.
-This option is only supported for `amd` and `node` modules. For other systems,
+This option is only supported for `amd`, `commonjs`, and `node` modules. For other systems,
 you will have to manage the dependency loading in another way.
 
 The property name in the object should be the value of the variable that the
@@ -107,6 +107,15 @@ For instance, `{ Library: 'library' }` will produce:
 
 ```javascript
 var Library = global.Library || require('library');
+
+module.exports = {};
+
+```
+
+**CommonJS**
+
+```javascript
+var Library = require('library');
 
 module.exports = {};
 

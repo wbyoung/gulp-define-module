@@ -62,7 +62,7 @@ describe('gulp-define-module', function() {
     var requireOptions = { require: { Library: 'library' } };
     it('handles require for AMD', basic('amd', requireOptions, 'require'));
     it('handles require for Node', basic('node', requireOptions, 'require'));
-    it('ignores require for CommonJS', basic('commonjs', requireOptions));
+    it('handles require for CommonJS', basic('commonjs', requireOptions, 'require'));
     it('ignores require for plain', basic('plain', requireOptions));
 
     it('accepts wrapper option',

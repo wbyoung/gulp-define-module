@@ -18,8 +18,11 @@ function makeAMD(moduleContents, opts) {
 }
 
 function makeCommonJS(moduleContents, opts) {
-  // module.exports = moduleObject;
-  return 'module.exports = ' + moduleContents + ';';
+  // var Dependency = require('dependency');module.exports = moduleObject;
+  var requires = _.map(opts.require, function(key, value) {
+    return 'var ' + value + ' = require(' + JSON.stringify(key) + ');';
+  });
+  return requires + 'module.exports = ' + moduleContents + ';';
 }
 
 function makeNode(moduleContents, opts) {
