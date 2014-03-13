@@ -25,14 +25,6 @@ function makeCommonJS(moduleContents, opts) {
   return requires + 'module.exports = ' + moduleContents + ';';
 }
 
-function makeNode(moduleContents, opts) {
-  // var Dependency = global.Dependency || require('dependency');module.exports = moduleObject;
-  var requires = _.map(opts.require, function(key, value) {
-    return 'var ' + value + ' = global.' + value + ' || require(' + JSON.stringify(key) + ');';
-  });
-  return requires + 'module.exports = ' + moduleContents + ';';
-}
-
 function makePlain(moduleContents, opts) {
   // moduleObject;
   return moduleContents + ';';
@@ -68,8 +60,7 @@ module.exports = function(type, options) {
     }
 
     if (type === 'amd') { contents = makeAMD(contents, opts); }
-    else if (type === 'commonjs') { contents = makeCommonJS(contents, opts); }
-    else if (type === 'node') { contents = makeNode(contents, opts); }
+    else if (type === 'commonjs' || type === 'node') { contents = makeCommonJS(contents, opts); }
     else if (type === 'plain') { contents = makePlain(contents, opts); }
     else {
       throw new Error('Unsupported module type for gulp-define-module: ' + type);

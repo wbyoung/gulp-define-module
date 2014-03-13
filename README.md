@@ -15,7 +15,7 @@ An example input file to create a callable module:
 }
 ```
 
-Transformed to **Node** (`defineModule('node')`):
+Transformed to **CommonJS/Node** (`defineModule('commonjs')` or `defineModule('node')`):
 
 ```javascript
 module.exports = {
@@ -37,16 +37,6 @@ define([], function() {
 });
 ```
 
-Transformed to **CommonJS** (`defineModule('commonjs')`):
-
-```javascript
-module.exports = {
-  start: function() {},
-  end: function() {},
-  version: "1.0"
-};
-```
-
 Transformed to **Plain** (`defineModule('plain')`):
 
 ```javascript
@@ -66,7 +56,7 @@ var defineModule = require('gulp-define-module');
 gulp.task('templates', function(){
   gulp.src(['client/templates/*.hbs'])
     .pipe(emberEmblem())
-    .pipe(defineModule('node'))
+    .pipe(defineModule('commonjs'))
     .pipe(gulp.dest('build/templates/'));
 });
 ```
@@ -82,9 +72,9 @@ Default: `bare`
 
 The desired output type. One of the following:
 
-* `node` - Produce Node modules
-* `amd` - Produce AMD modules
 * `commonjs` - Produce CommonJS modules
+* `node` - Produce Node modules (alias for `commonjs`)
+* `amd` - Produce AMD modules
 * `plain` - Return an unmolested function definition
 
 
@@ -94,7 +84,7 @@ Type: `Object`
 Default: `{}`
 
 An object containing dependencies that should be imported for this module.
-This option is only supported for `amd`, `commonjs`, and `node` modules. For other systems,
+This option is only supported for `commonjs`, `node`, and `amd` modules. For other systems,
 you will have to manage the dependency loading in another way.
 
 The property name in the object should be the value of the variable that the
@@ -103,23 +93,13 @@ of the dependency.
 
 For instance, `{ Library: 'library' }` will produce:
 
-**Node**
+**CommonJS/Node**
 
 ```javascript
-var Library = global.Library || require('library');
+var Library = Library || require('library');
 
 module.exports = {};
 
-```
-
-**CommonJS**
-
-```javascript
-var Library = require('library');
-
-module.exports = {};
-
-```
 
 **AMD**
 
