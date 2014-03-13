@@ -6,7 +6,7 @@ var gutil = require('gulp-util');
 var _ = require('lodash');
 
 function makeAMD(moduleContents, opts) {
-  // define(['dependency'], function(Dependency) { return function() {}; });
+  // define(['dependency'], function(Dependency) { return moduleObject; });
   var includes = [];
   var defines = [];
   _.each(opts.require, function(include, define) {
@@ -18,12 +18,12 @@ function makeAMD(moduleContents, opts) {
 }
 
 function makeCommonJS(moduleContents, opts) {
-  // module.exports = function() {};
+  // module.exports = moduleObject;
   return 'module.exports = ' + moduleContents + ';';
 }
 
 function makeNode(moduleContents, opts) {
-  // var Dependency = global.Dependency || require('dependency');module.exports = function() {};
+  // var Dependency = global.Dependency || require('dependency');module.exports = moduleObject;
   var requires = _.map(opts.require, function(key, value) {
     return 'var ' + value + ' = global.' + value + ' || require(' + JSON.stringify(key) + ');';
   });
@@ -31,7 +31,7 @@ function makeNode(moduleContents, opts) {
 }
 
 function makePlain(moduleContents, opts) {
-  // function() {};
+  // moduleObject;
   return moduleContents + ';';
 }
 
