@@ -25,6 +25,26 @@ function makeCommonJS(moduleContents, opts) {
   return requires + 'module.exports = ' + moduleContents + ';';
 }
 
+function makeHybrid(moduleContents, opts) {
+  // (function(definition) { if (typeof exports === 'object') { module.exports = definition(require('library')); }
+  // else if (typeof define === 'function' && define.amd) { define(['library'], definition); } else { definition(Library); }
+  // })(function(Library) { return moduleObject; });
+  var includes = [];
+  var requires = [];
+  var defines = [];
+  _.each(opts.require, function(include, define) {
+    includes.push(JSON.stringify(include));
+    requires.push('require(' + JSON.stringify(include) + ')');
+    defines.push(define);
+  });
+
+  return '(function(definition) { ' +
+    'if (typeof exports === \'object\') { module.exports = definition(' + requires.join(',') + '); } ' +
+    'else if (typeof define === \'function\' && define.amd) { define([' + includes.join(',') + '], definition); } ' +
+    'else { definition(' + defines.join(',') + '); } ' +
+    '})(function(' + defines.join(',') + ') { return ' + moduleContents + '; });';
+}
+
 function makePlain(moduleContents, opts) {
   // moduleObject;
   return moduleContents + ';';
@@ -61,6 +81,7 @@ module.exports = function(type, options) {
 
     if (type === 'amd') { contents = makeAMD(contents, opts); }
     else if (type === 'commonjs' || type === 'node') { contents = makeCommonJS(contents, opts); }
+    else if (type === 'hybrid') { contents = makeHybrid(contents, opts); }
     else if (type === 'plain') { contents = makePlain(contents, opts); }
     else {
       throw new Error('Unsupported module type for gulp-define-module: ' + type);

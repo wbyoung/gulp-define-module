@@ -37,6 +37,22 @@ define([], function() {
 });
 ```
 
+Transformed to **Hybrid** (`defineModule('hybrid')`):
+
+```javascript
+(function(definition) {
+  if (typeof exports === 'object') { module.exports = definition(); } // CommonJS
+  else if (typeof define === 'function' && define.amd) { define([], definition); } // AMD
+  else { definition(); } // Browser
+})(function() {
+  return {
+    start: function() {},
+    end: function() {},
+    version: "1.0"
+  };
+});
+```
+
 Transformed to **Plain** (`defineModule('plain')`):
 
 ```javascript
@@ -75,6 +91,7 @@ The desired output type. One of the following:
 * `commonjs` - Produce CommonJS modules
 * `node` - Produce Node modules (alias for `commonjs`)
 * `amd` - Produce AMD modules
+* `hybrid` - Produce hybrid modules that can be used in most environments
 * `plain` - Return an unmolested function definition
 
 
@@ -83,9 +100,9 @@ The desired output type. One of the following:
 Type: `Object`  
 Default: `{}`
 
-An object containing dependencies that should be imported for this module.
-This option is only supported for `commonjs`, `node`, and `amd` modules. For other systems,
-you will have to manage the dependency loading in another way.
+An object containing dependencies that should be imported for this module. This option is only
+supported for `commonjs`, `node`, `amd`, and `hybrid` modules. For other systems, you will have
+to manage the dependency loading in another way.
 
 The property name in the object should be the value of the variable that the
 dependency will be accessed from, and the property value should be the name
@@ -108,6 +125,19 @@ define(['library'], function(Library) {
   return {};
 });
 ```
+
+**Hybrid**
+
+```javascript
+(function(definition) {
+  if (typeof exports === 'object') { module.exports = definition(require('library')); } // CommonJS
+  else if (typeof define === 'function' && define.amd) { define(['library'], definition); } // AMD
+  else { definition(Library); } // Browser
+})(function(Library) {
+  return {};
+});
+```
+
 
 
 #### options.wrapper

@@ -53,6 +53,7 @@ describe('gulp-define-module', function() {
     it('makes AMD modules', basic('amd'));
     it('makes CommonJS modules', basic('commonjs'));
     it('makes Node modules', basic('node'));
+    it('makes Hybrid modules', basic('hybrid'));
     it('makes plain modules', basic('plain'));
 
     it('throws when the the type is unsupported', function() {
@@ -63,6 +64,7 @@ describe('gulp-define-module', function() {
     it('handles require for AMD', basic('amd', requireOptions, 'require'));
     it('handles require for Node', basic('node', requireOptions, 'require'));
     it('handles require for CommonJS', basic('commonjs', requireOptions, 'require'));
+    it('handles require for Hybrid', basic('hybrid', requireOptions, 'require'));
     it('ignores require for plain', basic('plain', requireOptions));
 
     it('accepts wrapper option',
