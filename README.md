@@ -1,24 +1,27 @@
 # gulp-define-module [![NPM version][npm-image]][npm-url] [![Build status][travis-image]][travis-url]
 
-The gulp define module plugin produces modules from a simple function input. It allows
+The gulp define module plugin produces modules from an input source. It allows
 [other plugins](https://github.com/wbyoung/gulp-ember-emblem) to offload module definition
-to a separate plugin. For consistency, the input function should not include a trailing semicolon.
+to a separate plugin. For consistency, the input source should contain a single JavaScript
+expression and should not contain a trailing semicolon.
 
-An example input file:
+An example input file to create a callable module:
 
 ```javascript
-function() {
-  // this is a module definition file that includes this single module.
-  this.property = "some property";
+{
+  start: function() {},
+  end: function() {},
+  version: "1.0"
 }
 ```
 
 Transformed to **Node** (`defineModule('node')`):
 
 ```javascript
-module.exports = function() {
-  // this is a module definition file that includes this single module.
-  this.property = "some property";
+module.exports = {
+  start: function() {},
+  end: function() {},
+  version: "1.0"
 };
 ```
 
@@ -26,9 +29,10 @@ Transformed to **AMD** (`defineModule('amd')`):
 
 ```javascript
 define([], function() {
-  return function() {
-    // this is a module definition file that includes this single module.
-    this.property = "some property";
+  return {
+    start: function() {},
+    end: function() {},
+    version: "1.0"
   };
 });
 ```
@@ -36,18 +40,20 @@ define([], function() {
 Transformed to **CommonJS** (`defineModule('commonjs')`):
 
 ```javascript
-module.exports = function() {
-  // this is a module definition file that includes this single module.
-  this.property = "some property";
+module.exports = {
+  start: function() {},
+  end: function() {},
+  version: "1.0"
 };
 ```
 
 Transformed to **Plain** (`defineModule('plain')`):
 
 ```javascript
-function() {
-  // this is a module definition file that includes this single module.
-  this.property = "some property";
+{
+  start: function() {},
+  end: function() {},
+  version: "1.0"
 };
 ```
 
@@ -102,8 +108,7 @@ For instance, `{ Library: 'library' }` will produce:
 ```javascript
 var Library = global.Library || require('library');
 
-module.exports = function() {
-};
+module.exports = {};
 
 ```
 
@@ -111,8 +116,7 @@ module.exports = function() {
 
 ```javascript
 define(['library'], function(Library) {
-  return function() {
-  };
+  return {};
 });
 ```
 
