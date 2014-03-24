@@ -166,7 +166,7 @@ to the context. For instance, you can create complex definitions on a per-file b
 
 ```js
 defineModule('plain', {
-  wrapper: 'MyApp.templates["<%= templateName %>"] = <% contents %>',
+  wrapper: 'MyApp.templates["<%= templateName %>"] = <%= contents %>',
   context: function(context) {
     var file = context.file;
     var name = path.relative(file.cwd, file.path)
