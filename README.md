@@ -118,6 +118,7 @@ For instance, `{ Library: 'library' }` will produce:
 var Library = Library || require('library');
 
 module.exports = {};
+```
 
 
 **AMD**
