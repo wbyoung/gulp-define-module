@@ -5,7 +5,7 @@
   "homepage": "https://github.com/wbyoung/gulp-define-module",
   "main": "index.js",
   "scripts": {
-    "test": "./node_modules/.bin/mocha"
+    "test": "./node_modules/.bin/istanbul cover ./node_modules/.bin/_mocha --report $(if [ \"$TRAVIS\" ]; then echo lcovonly; else echo html; fi) -- && if [ \"$TRAVIS\" ]; then cat ./coverage/lcov.info | ./node_modules/.bin/coveralls; fi"
   },
   "repository": {
     "type": "git",
@@ -27,6 +27,8 @@
   },
   "devDependencies": {
     "mocha": "~1.17.0",
-    "should": "~3.1.0"
+    "should": "~3.1.0",
+    "coveralls": "~2.10.0",
+    "istanbul": "~0.2.7"
   }
 }
