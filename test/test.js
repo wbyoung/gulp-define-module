@@ -31,7 +31,17 @@ var streamThroughDefineModule = function(type, options, filePath, cb) {
 var fileShouldMatchExpected = function(file, filePath) {
   var expectedDir = path.join('test', 'expected');
   var expectedPath = path.join(expectedDir, filePath);
-  file.contents.toString().should.equal(fs.readFileSync(expectedPath).toString());
+  if (fs.existsSync(expectedPath + '.regex')) {
+    var regex = new RegExp(fs.readFileSync(expectedPath + '.regex').toString());
+    var match = file.contents.toString().match(regex);
+    match.should.exist;
+    if (typeof arguments[2] === 'function') {
+      arguments[2](match);
+    }
+  }
+  else {
+    file.contents.toString().should.equal(fs.readFileSync(expectedPath).toString());
+  }
 };
 
 describe('gulp-define-module', function() {
@@ -76,6 +86,13 @@ describe('gulp-define-module', function() {
         wrapper: '<%= customContents %>'
       }));
 
+    it('allows name to be overridden',
+      // this isn't a recommended use of name. instead, the user should define
+      // a wrapper, but it significantly simplifies the test setup.
+      basic('plain', {
+        context: { name: 'App["<%= name %>"] =' }
+      }));
+
     it('accepts options.context as a function',
       basic('plain', {
         context: function(context) {
@@ -92,6 +109,37 @@ describe('gulp-define-module', function() {
       file.defineModuleOptions = requireOptions;
       stream.on('data', function(file) {
         fileShouldMatchExpected(file, 'basic_amd_require.js');
+        done();
+      });
+      stream.write(file);
+      stream.end();
+    });
+
+    it('processes options both through invocation and incoming file', function(done) {
+      // the options should be handled like this:
+      // - require from `file.defineModuleOptions` should be used as base values, and the
+      //   values from `defineModule` should be merged over top of them.
+      // - context from `file.defineModuleOptions` should be processed first, then context
+      //   from `defineModule`.
+      // - wrapper from `defineModule` should override that of `file.defineModuleOptions`.
+      var stream = defineModule('amd', {
+        wrapper: 'Application.Library.TEMPLATES[\'<%= name %>\'] = <%= contents %>',
+        context: function(context) {
+          return { name: context.prefix + '.' + context.name };
+        },
+        require: { Application: 'application', Shared: 'shared-application-library' }
+      });
+      var file = fixtureFile('basic.js');
+      file.defineModuleOptions = {
+        wrapper: 'Library.TEMPLATES[\'<%= name %>\'] = <%= contents %>',
+        context: { prefix: 'prefix' },
+        require: { Library: 'library', Shared: 'shared-library' }
+      };
+      stream.on('data', function(file) {
+        fileShouldMatchExpected(file, 'basic_amd_advanced_options.js', function(match) {
+          match[1].split(',').sort().join(',').should.eql('"application","library","shared-application-library"');
+          match[2].split(',').sort().join(',').should.eql('Application,Library,Shared');
+        });
         done();
       });
       stream.write(file);

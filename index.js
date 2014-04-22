@@ -55,27 +55,32 @@ module.exports = function(type, options) {
     if (file.isNull()) { return this.queue(file); } // pass along
     if (file.isStream()) { return this.emit('error', new gutil.PluginError('gulp-define-module', 'Streaming not supported')); }
 
-    var opts = _.defaults({}, options, file.defineModuleOptions, {
-      require: {}
-    });
+    var opts = _.defaults({}, options, file.defineModuleOptions);
+    opts.context = _([file.defineModuleOptions, options])
+      .filter(_.identity).pluck('context')
+      .filter(_.identity).value();
+    opts.require = _.merge.apply(null, _([file.defineModuleOptions, options, { require: {} }])
+      .filter(_.identity).pluck('require')
+      .filter(_.identity).value());
 
     var contents = file.contents.toString();
     var name = path.basename(file.path, path.extname(file.path));
+    var context = {
+      name: name,
+      file: file,
+      contents: contents
+    };
     if (opts.wrapper) {
-      var context = {
-        name: name,
-        file: file,
-        contents: contents
-      };
-      if (opts.context) {
-        var extensions = opts.context;
+      opts.context.forEach(function(extensions) {
+        if (!extensions) { return; }
         if (typeof extensions === 'function') {
           extensions = extensions(context);
         }
-        _.defaults(context, _(extensions).map(function(value, key) {
+        _.merge(context, _(extensions).map(function(value, key) {
           return [key, _.template(value, context)];
         }).object().value());
-      }
+      });
+
       contents = _.template(opts.wrapper, context);
     }
 
