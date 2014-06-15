@@ -195,6 +195,11 @@ that you make it a single value from the _context_ for usage simplicity.
 For an example, see [gulp-ember-emblem].
 
 
+## License
+
+This project is distributed under the MIT license.
+
+
 [travis-url]: http://travis-ci.org/wbyoung/gulp-define-module
 [travis-image]: https://secure.travis-ci.org/wbyoung/gulp-define-module.png?branch=master
 [npm-url]: https://npmjs.org/package/gulp-define-module
