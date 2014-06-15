@@ -1,6 +1,6 @@
 # gulp-define-module
 
-[![NPM version][npm-image]][npm-url] [![Build status][travis-image]][travis-url] [![Code Climate][codeclimate-image]][codeclimate-url] [![Coverage Status][coverage-image]][coverage-url] [![Dependencies][david-image]][david-url]
+[![NPM version][npm-image]][npm-url] [![Build status][travis-image]][travis-url] [![Code Climate][codeclimate-image]][codeclimate-url] [![Coverage Status][coverage-image]][coverage-url] [![Dependencies][david-image]][david-url] [![devDependencies][david-dev-image]][david-dev-url]
 
 The gulp define module plugin produces modules from an input source. It allows
 [other plugins](https://github.com/wbyoung/gulp-ember-emblem) to offload module definition
@@ -205,6 +205,8 @@ For an example, see [gulp-ember-emblem].
 [coverage-url]: https://coveralls.io/r/wbyoung/gulp-define-module
 [david-image]: https://david-dm.org/wbyoung/gulp-define-module.png?theme=shields.io
 [david-url]: https://david-dm.org/wbyoung/gulp-define-module
+[david-dev-image]: https://david-dm.org/wbyoung/gulp-define-module/dev-status.png?theme=shields.io
+[david-dev-url]: https://david-dm.org/wbyoung/gulp-define-module#info=devDependencies
 
 [gulp-define-module]: https://github.com/wbyoung/gulp-define-module
 [gulp-handlebars]: https://github.com/lazd/gulp-handlebars
