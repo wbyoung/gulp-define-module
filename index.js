@@ -10,6 +10,7 @@ function makeAMD(moduleContents, opts) {
   var includes = [];
   var defines = [];
   _.each(opts.require, function(include, define) {
+    if(include === null) { return; }
     includes.push(JSON.stringify(include));
     defines.push(define);
   });
@@ -20,6 +21,7 @@ function makeAMD(moduleContents, opts) {
 function makeCommonJS(moduleContents, opts) {
   // var Dependency = require('dependency');module.exports = moduleObject;
   var requires = _.map(opts.require, function(key, value) {
+    if(value === null) { return; }
     return 'var ' + value + ' = require(' + JSON.stringify(key) + ');';
   });
   return requires + 'module.exports = ' + moduleContents + ';';
