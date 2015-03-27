@@ -81,11 +81,11 @@ module.exports = function(type, options) {
           extensions = extensions(context);
         }
         _.merge(context, _(extensions).map(function(value, key) {
-          return [key, _.template(value, context)];
+          return [key, _.template(value)(context)];
         }).object().value());
       });
 
-      contents = _.template(opts.wrapper, context);
+      contents = _.template(opts.wrapper)(context);
     }
 
     if (type === 'amd') { contents = makeAMD(contents, opts); }
