@@ -122,18 +122,19 @@ describe('gulp-define-module', function() {
       // - context from `file.defineModuleOptions` should be processed first, then context
       //   from `defineModule`.
       // - wrapper from `defineModule` should override that of `file.defineModuleOptions`.
+      // - any require from `defineModule` with the value of null should ignore the require
       var stream = defineModule('amd', {
         wrapper: 'Application.Library.TEMPLATES[\'<%= name %>\'] = <%= contents %>',
         context: function(context) {
           return { name: context.prefix + '.' + context.name };
         },
-        require: { Application: 'application', Shared: 'shared-application-library' }
+        require: { Application: 'application', Shared: 'shared-application-library', Vendor: null }
       });
       var file = fixtureFile('basic.js');
       file.defineModuleOptions = {
         wrapper: 'Library.TEMPLATES[\'<%= name %>\'] = <%= contents %>',
         context: { prefix: 'prefix' },
-        require: { Library: 'library', Shared: 'shared-library' }
+        require: { Library: 'library', Shared: 'shared-library', Vendor: 'shared-vendor-library' }
       };
       stream.on('data', function(file) {
         fileShouldMatchExpected(file, 'basic_amd_advanced_options.js', function(match) {
