@@ -22,7 +22,7 @@ function makeAMD(moduleContents, opts) {
 function makeCommonJS(moduleContents, opts) {
   // var Dependency = require('dependency');module.exports = moduleObject;
   var requires = _.map(opts.require, function(key, value) {
-    if (value !== null) {
+    if (key !== null) {
       return 'var ' + value + ' = require(' + JSON.stringify(key) + ');';
     }
   });
