@@ -115,7 +115,7 @@ describe('gulp-define-module', function() {
       stream.end();
     });
 
-    it('processes options both through invocation and incoming file', function(done) {
+    it('processes options for AMD both through invocation and incoming file', function(done) {
       // the options should be handled like this:
       // - require from `file.defineModuleOptions` should be used as base values, and the
       //   values from `defineModule` should be merged over top of them.
@@ -145,6 +145,36 @@ describe('gulp-define-module', function() {
       });
       stream.write(file);
       stream.end();
+    });
+
+    it('processes options for CommonJS both through invocation and incoming file', function(done) {
+
+      var stream = defineModule('commonjs', {
+        wrapper: 'Application.Library.TEMPLATES[\'<%= name %>\'] = <%= contents %>',
+        context: function(context) {
+          return { name: context.prefix + '.' + context.name };
+        },
+        require: { Library: 'app-library', Vendor: null }
+      });
+
+      var file = fixtureFile('basic.js');
+      file.defineModuleOptions = {
+        wrapper: 'Library.TEMPLATES[\'<%= name %>\'] = <%= contents %>',
+        context: { prefix: 'prefix' },
+        require: { Library: 'app-library', Vendor: 'shared-vendor-library' }
+      };
+
+      stream.on('data', function(file) {
+        fileShouldMatchExpected(file, 'basic_commonjs_advanced.js', function(match) {
+          match[1].should.eql('Library');
+          match[2].should.eql('app-library');
+          done();
+        });
+      });
+
+      stream.write(file);
+      stream.end();
+
     });
 
     describe('wrapper context', function() {
