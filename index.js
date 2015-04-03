@@ -26,7 +26,7 @@ function makeCommonJS(moduleContents, opts) {
       return 'var ' + value + ' = require(' + JSON.stringify(key) + ');';
     }
   });
-  return requires.join("") + 'module.exports = ' + moduleContents + ';';
+  return requires.join('') + 'module.exports = ' + moduleContents + ';';
 }
 
 function makeHybrid(moduleContents, opts) {
