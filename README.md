@@ -181,6 +181,43 @@ defineModule('plain', {
 This will result in a template file, `app/view.js` with an empty function, `function() {}`, being compiled to
 `MyApp.templates["app.view"] = function() {};`.
 
+#### options.name
+Type: `Function`  
+Default: `undefined`
+
+*This option **only** works with `defineModule('amd',...)` and therefore has no effect on other module types.*
+
+Function which got currently processed file path as argument and should return a string —  [name](http://requirejs.org/docs/whyamd.html#namedmodules) for `amd` module.
+
+```js
+defineModule('amd', {
+  name: function(filePath) { return "moduleName"; }
+})
+
+```
+
+If no naming function is present then result will be an [anonymous](http://requirejs.org/docs/whyamd.html#definition) `amd` module.
+
+Example:
+
+```js
+gulp.src('bloko/blocks/**/*.mustache')
+  .pipe(hoganCompiler())
+  .pipe(rename(function(filePath) { filePath.extname = '.mustache.js' })
+  .pipe(defineModule('amd', {
+    require: {
+      Hogan: 'hogan'
+    },
+    name: function(filePath) { return filePath.split(process.cwd() + '/')[1].replace('.js', '') }
+  }))
+  .pipe(gulp.dest('bloko/blocks'));
+```
+
+This will result in the following template file:
+```js
+define("bloko/blocks/dropdown/dropdown.mustache", ["hogan"], function(Hogan) { ... })
+```
+
 
 ## For gulp plugin developers
 

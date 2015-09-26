@@ -5,7 +5,7 @@ var path = require('path');
 var gutil = require('gulp-util');
 var _ = require('lodash');
 
-function makeAMD(moduleContents, opts) {
+function makeAMD(moduleContents, filePath, opts) {
   // define(['dependency'], function(Dependency) { return moduleObject; });
   var includes = [];
   var defines = [];
@@ -15,11 +15,14 @@ function makeAMD(moduleContents, opts) {
       defines.push(define);
     }
   });
-  return 'define([' + includes.join(',') + '], ' +
+
+  var moduleName = opts.name ? '"' + opts.name(filePath) + '", ' : '';
+
+  return 'define(' + moduleName + '[' + includes.join(',') + '], ' +
     'function(' + defines.join(',') + ') { return ' + moduleContents + '; });';
 }
 
-function makeCommonJS(moduleContents, opts) {
+function makeCommonJS(moduleContents, filePath, opts) {
   // var Dependency = require('dependency');module.exports = moduleObject;
   var requires = _.map(opts.require, function(key, value) {
     if (key !== null) {
@@ -29,7 +32,7 @@ function makeCommonJS(moduleContents, opts) {
   return requires.join('') + 'module.exports = ' + moduleContents + ';';
 }
 
-function makeHybrid(moduleContents, opts) {
+function makeHybrid(moduleContents, filePath, opts) {
   // (function(definition) { if (typeof exports === 'object') { module.exports = definition(require('library')); }
   // else if (typeof define === 'function' && define.amd) { define(['library'], definition); } else { definition(Library); }
   // })(function(Library) { return moduleObject; });
@@ -49,7 +52,7 @@ function makeHybrid(moduleContents, opts) {
     '})(function(' + defines.join(',') + ') { return ' + moduleContents + '; });';
 }
 
-function makePlain(moduleContents, opts) {
+function makePlain(moduleContents, filePath, opts) {
   // moduleObject;
   return moduleContents + ';';
 }
@@ -88,10 +91,10 @@ module.exports = function(type, options) {
       contents = _.template(opts.wrapper)(context);
     }
 
-    if (type === 'amd') { contents = makeAMD(contents, opts); }
-    else if (type === 'commonjs' || type === 'node') { contents = makeCommonJS(contents, opts); }
-    else if (type === 'hybrid') { contents = makeHybrid(contents, opts); }
-    else if (type === 'plain') { contents = makePlain(contents, opts); }
+    if (type === 'amd') { contents = makeAMD(contents, file.path, opts); }
+    else if (type === 'commonjs' || type === 'node') { contents = makeCommonJS(contents, file.path, opts); }
+    else if (type === 'hybrid') { contents = makeHybrid(contents, file.path, opts); }
+    else if (type === 'plain') { contents = makePlain(contents, file.path, opts); }
     else {
       throw new Error('Unsupported module type for gulp-define-module: ' + type);
     }

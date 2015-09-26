@@ -60,7 +60,10 @@ describe('gulp-define-module', function() {
       };
     };
 
-    it('makes AMD modules', basic('amd'));
+    var amdNamingOptions = { name: function() { return 'path/module'; } };
+
+    it('makes anonymous AMD modules', basic('amd'));
+    it('makes named AMD modules', basic('amd', amdNamingOptions, 'named'));
     it('makes CommonJS modules', basic('commonjs'));
     it('makes Node modules', basic('node'));
     it('makes Hybrid modules', basic('hybrid'));
