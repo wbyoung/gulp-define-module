@@ -187,35 +187,38 @@ Default: `undefined`
 
 *This option **only** works with `defineModule('amd',...)` and therefore has no effect on other module types.*
 
-Function which got currently processed file path as argument and should return a string —  [name](http://requirejs.org/docs/whyamd.html#namedmodules) for `amd` module.
+This function receives the file path as argument and should return a
+[name for the `amd` module](http://requirejs.org/docs/whyamd.html#namedmodules). For example:
 
 ```js
 defineModule('amd', {
   name: function(filePath) { return "moduleName"; }
 })
-
 ```
 
-If no naming function is present then result will be an [anonymous](http://requirejs.org/docs/whyamd.html#definition) `amd` module.
+If no naming function is present, an
+[anonymous `amd` module](http://requirejs.org/docs/whyamd.html#definition) will be created.
 
-Example:
+This can be used with Hogan, for example:
 
 ```js
-gulp.src('bloko/blocks/**/*.mustache')
+gulp.src('client/templates/**/*.mustache')
   .pipe(hoganCompiler())
   .pipe(rename(function(filePath) { filePath.extname = '.mustache.js' })
   .pipe(defineModule('amd', {
     require: {
       Hogan: 'hogan'
     },
-    name: function(filePath) { return filePath.split(process.cwd() + '/')[1].replace('.js', '') }
+    name: function(filePath) {
+      return filePath.split(process.cwd() + '/')[1].replace('.js', '')
+    }
   }))
-  .pipe(gulp.dest('bloko/blocks'));
+  .pipe(gulp.dest('build/templates/'));
 ```
 
 This will result in the following template file:
 ```js
-define("bloko/blocks/dropdown/dropdown.mustache", ["hogan"], function(Hogan) { ... })
+define("build/templates/path/to/template.mustache", ["hogan"], function(Hogan) { ... })
 ```
 
 
