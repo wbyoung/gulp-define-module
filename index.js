@@ -52,6 +52,15 @@ function makeHybrid(moduleContents, filePath, opts) {
     '})(function(' + defines.join(',') + ') { return ' + moduleContents + '; });';
 }
 
+function makeEs6(moduleContents, filePath, opts) {
+  var requires = _.map(opts.require, function(key, value) {
+    if (key !== null) {
+      return 'import ' + value + ' from ' + JSON.stringify(key) + ';';
+    }
+  });
+  return requires.join('') + 'export default ' + moduleContents + ';';
+}
+
 function makePlain(moduleContents, filePath, opts) {
   // moduleObject;
   return moduleContents + ';';
@@ -95,6 +104,7 @@ module.exports = function(type, options) {
     else if (type === 'commonjs' || type === 'node') { contents = makeCommonJS(contents, file.path, opts); }
     else if (type === 'hybrid') { contents = makeHybrid(contents, file.path, opts); }
     else if (type === 'plain') { contents = makePlain(contents, file.path, opts); }
+    else if (type === 'es6') { contents = makeEs6(contents, file.path, opts); }
     else {
       throw new Error('Unsupported module type for gulp-define-module: ' + type);
     }
