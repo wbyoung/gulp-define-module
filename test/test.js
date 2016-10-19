@@ -65,6 +65,7 @@ describe('gulp-define-module', function() {
     it('makes anonymous AMD modules', basic('amd'));
     it('makes named AMD modules', basic('amd', amdNamingOptions, 'named'));
     it('makes CommonJS modules', basic('commonjs'));
+    it('makes ES6 modules', basic('es6'));
     it('makes Node modules', basic('node'));
     it('makes Hybrid modules', basic('hybrid'));
     it('makes plain modules', basic('plain'));
@@ -77,6 +78,7 @@ describe('gulp-define-module', function() {
     it('handles require for AMD', basic('amd', requireOptions, 'require'));
     it('handles require for Node', basic('node', requireOptions, 'require'));
     it('handles require for CommonJS', basic('commonjs', requireOptions, 'require'));
+    it('handles require for ES6', basic('es6', requireOptions, 'require'));
     it('handles require for Hybrid', basic('hybrid', requireOptions, 'require'));
     it('ignores require for plain', basic('plain', requireOptions));
 
@@ -169,6 +171,36 @@ describe('gulp-define-module', function() {
 
       stream.on('data', function(file) {
         fileShouldMatchExpected(file, 'basic_commonjs_advanced.js', function(match) {
+          match[1].should.eql('Library');
+          match[2].should.eql('app-library');
+          done();
+        });
+      });
+
+      stream.write(file);
+      stream.end();
+
+    });
+
+    it('processes options for ES6 both through invocation and incoming file', function(done) {
+
+      var stream = defineModule('es6', {
+        wrapper: 'Application.Library.TEMPLATES[\'<%= name %>\'] = <%= contents %>',
+        context: function(context) {
+          return { name: context.prefix + '.' + context.name };
+        },
+        require: { Library: 'app-library', Vendor: null }
+      });
+
+      var file = fixtureFile('basic.js');
+      file.defineModuleOptions = {
+        wrapper: 'Library.TEMPLATES[\'<%= name %>\'] = <%= contents %>',
+        context: { prefix: 'prefix' },
+        require: { Library: 'app-library', Vendor: 'shared-vendor-library' }
+      };
+
+      stream.on('data', function(file) {
+        fileShouldMatchExpected(file, 'basic_es6_advanced.js', function(match) {
           match[1].should.eql('Library');
           match[2].should.eql('app-library');
           done();

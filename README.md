@@ -39,6 +39,16 @@ define([], function() {
 });
 ```
 
+Transformed to **ES6** (`defineModule('es6')`):
+
+```javascript
+export default {
+  start: function() {},
+  end: function() {},
+  version: "1.0"
+};
+```
+
 Transformed to **Hybrid** (`defineModule('hybrid')`):
 
 ```javascript
@@ -93,6 +103,7 @@ The desired output type. One of the following:
 * `commonjs` - Produce CommonJS modules
 * `node` - Produce Node modules (alias for `commonjs`)
 * `amd` - Produce AMD modules
+* `es6` - Produce ES6 modules
 * `hybrid` - Produce hybrid modules that can be used in most environments
 * `plain` - Return an unmolested function definition
 
@@ -103,7 +114,7 @@ Type: `Object`
 Default: `{}`
 
 An object containing dependencies that should be imported for this module. This option is only
-supported for `commonjs`, `node`, `amd`, and `hybrid` modules. For other systems, you will have
+supported for `commonjs`, `node`, `amd`, `es6` and `hybrid` modules. For other systems, you will have
 to manage the dependency loading in another way.
 
 The property name in the object should be the value of the variable that the
@@ -127,6 +138,12 @@ module.exports = {};
 define(['library'], function(Library) {
   return {};
 });
+```
+
+**ES6**
+
+```javascript
+import Library from "library";
 ```
 
 **Hybrid**
