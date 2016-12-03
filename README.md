@@ -258,16 +258,16 @@ This project is distributed under the MIT license.
 
 
 [travis-url]: http://travis-ci.org/wbyoung/gulp-define-module
-[travis-image]: https://secure.travis-ci.org/wbyoung/gulp-define-module.png?branch=master
+[travis-image]: https://secure.travis-ci.org/wbyoung/gulp-define-module.svg?branch=master
 [npm-url]: https://npmjs.org/package/gulp-define-module
-[npm-image]: https://badge.fury.io/js/gulp-define-module.png
-[codeclimate-image]: https://codeclimate.com/github/wbyoung/gulp-define-module.png
+[npm-image]: https://badge.fury.io/js/gulp-define-module.svg
+[codeclimate-image]: https://codeclimate.com/github/wbyoung/gulp-define-module.svg
 [codeclimate-url]: https://codeclimate.com/github/wbyoung/gulp-define-module
-[coverage-image]: https://coveralls.io/repos/wbyoung/gulp-define-module/badge.png
+[coverage-image]: https://coveralls.io/repos/wbyoung/gulp-define-module/badge.svg
 [coverage-url]: https://coveralls.io/r/wbyoung/gulp-define-module
-[david-image]: https://david-dm.org/wbyoung/gulp-define-module.png?theme=shields.io
+[david-image]: https://david-dm.org/wbyoung/gulp-define-module.svg?theme=shields.io
 [david-url]: https://david-dm.org/wbyoung/gulp-define-module
-[david-dev-image]: https://david-dm.org/wbyoung/gulp-define-module/dev-status.png?theme=shields.io
+[david-dev-image]: https://david-dm.org/wbyoung/gulp-define-module/dev-status.svg?theme=shields.io
 [david-dev-url]: https://david-dm.org/wbyoung/gulp-define-module#info=devDependencies
 
 [gulp-define-module]: https://github.com/wbyoung/gulp-define-module
